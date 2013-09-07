@@ -7,6 +7,7 @@
  */
 define(function(require){
     var _ = require("underscore");
+    var GameObject = require("./gameobject");
     var Game = function(){
         this.ctx = {};
         this.fps = 30;
@@ -17,9 +18,10 @@ define(function(require){
         start:function(){
             this.ctx = document.getElementById('canvas').getContext('2d');
             this.initialize();
-            setInterval(this.onExecuteNextFrame, 1000 / this.fps);
+            setInterval(_.bind(this.onExecuteNextFrame,this), 1000 / this.fps);
         },
         initialize: function(){
+            this.gameObjects.push(new GameObject(this.ctx));
         },
         onExecuteNextFrame: function(){
             _.each(this.gameObjects, function(go){
